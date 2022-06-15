@@ -8,14 +8,14 @@ const http=require("https");
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(express.static("public"));
 
+const apiData=require(__dirname+"/apiData.json");
 app.get("/",function(req,res){
   res.sendFile(__dirname+"/signup.html");
 });
 
-
-//API- Key:- 371e02e7d858640d066145d3c68e515e-us10
-//API-ID:- 09fe79af5d
 app.post("/",function(req,res){
+  const apiId=apiData.apiId;
+  const apiKey=apiData.apiKey;
   const name=req.body.fname+" "+req.body.lname;
   const email=req.body.email;
   const data={
@@ -32,10 +32,10 @@ app.post("/",function(req,res){
   const jsonData=JSON.stringify(data);
   const options={
     method:"POST",
-    auth: "user69:71e02e7d858640d066145d3c68e515e-us10"
+    auth: "userX:"+apiKey
 
   }
-  const url='https://us10.api.mailchimp.com/3.0/lists/09fe79af5d/'
+  const url='https://us10.api.mailchimp.com/3.0/lists/'+apiId+'/'
   const reques=http.request(url,options,function(response){
       if(response.statusCode===200){
         res.sendFile(__dirname+"/success.html");
